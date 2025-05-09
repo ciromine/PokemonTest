@@ -43,10 +43,12 @@ class MainActivity : AppCompatActivity() {
     private fun setUpNavigation() {
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+
         val navGraph = navHostFragment.navController.graph
         navHostFragment.navController.setGraph(navGraph, intent.extras)
         appBarConfiguration = AppBarConfiguration
             .Builder(
+                R.id.loginFragment,
                 R.id.pokeListFragment,
                 R.id.pokeDetailFragment
             )
@@ -58,6 +60,14 @@ class MainActivity : AppCompatActivity() {
     private fun destinationManager() {
         navHostFragment.navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
+                R.id.loginFragment -> {
+                    supportActionBar?.apply {
+                        setDisplayHomeAsUpEnabled(true)
+                        setDisplayShowHomeEnabled(true)
+                        show()
+                    }
+                }
+
                 R.id.pokeListFragment -> {
                     supportActionBar?.apply {
                         setDisplayHomeAsUpEnabled(true)

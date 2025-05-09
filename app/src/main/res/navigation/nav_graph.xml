@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/pokeListFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/pokeListFragment"
@@ -11,20 +11,30 @@
         android:label="@string/tv_title_poke_list"
         tools:layout="@layout/fragment_poke_list">
         <action
-            android:id="@+id/action_slashFragment_to_characterListFragment"
-            app:destination="@id/pokeDetailFragment"
-            app:popUpTo="@+id/pokeDetailFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_pokeListFragment_to_pokeDetailFragment"
+            app:destination="@id/pokeDetailFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/pokeDetailFragment"
-        android:name="com.example.pokemontest.ui.pokedetail.PokeDetailFrafment"
+        android:name="com.example.pokemontest.ui.pokedetail.PokeDetailFragment"
         android:label="@string/tv_title_poke_detail"
         tools:layout="@layout/fragment_poke_detail">
         <argument
-            android:name="domainMovie"
-            app:argType="com.example.movieappv4.domain.model.DomainMovie" />
+            android:name="domainPokemon"
+            app:argType="com.example.pokemontest.domain.model.DomainPokemon" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.pokemontest.ui.login.LoginFragment"
+        android:label="@string/login_fragment_title"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_pokeListFragment"
+            app:destination="@id/pokeListFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

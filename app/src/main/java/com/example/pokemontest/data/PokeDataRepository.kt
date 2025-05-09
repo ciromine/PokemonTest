@@ -1,0 +1,33 @@
+package com.example.pokemontest.data
+
+import com.example.pokemontest.data.mapper.DataResponseMapper
+import com.example.pokemontest.data.source.PokeRemote
+import com.example.pokemontest.domain.model.DomainMockLogin
+import com.example.pokemontest.domain.model.DomainPokemonList
+import com.example.pokemontest.domain.repository.PokeRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+
+class PokeDataRepository @Inject constructor(
+    private val remote: PokeRemote,
+    private val mapper: DataResponseMapper
+) : PokeRepository {
+
+    override fun getPokemonList(limit: Int): Flow<DomainPokemonList> = flow {
+        val pokeList = with(mapper) {
+            remote.getPokemonList(limit = limit).toDomain()
+        }
+        emit(pokeList)
+    }
+
+    override fun mockLogin(email: String, pass: String): Flow<DomainMockLogin> = flow {
+        val domainLogin = with(mapper) {
+            remote.mockLogin(
+                email = email,
+                pass = pass
+            ).toDomain()
+        }
+        emit(domainLogin)
+    }
+}

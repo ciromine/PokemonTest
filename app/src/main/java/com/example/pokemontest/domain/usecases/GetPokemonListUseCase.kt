@@ -1,4 +1,4 @@
-package com.example.pokemontest.domain
+package com.example.pokemontest.domain.usecases
 
 import com.example.pokemontest.core.Resource
 import com.example.pokemontest.domain.model.DomainPokemonList

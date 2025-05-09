@@ -3,6 +3,7 @@
     <string name="tv_title_poke_list">Lista de Pokemones</string>
     <string name="tv_title_poke_detail">Detalle Pokemones</string>
 
+    <string name="login_fragment_title">Login</string>
     <string name="login_title">Iniciar Sesión</string>
     <string name="login_hint_email">Correo Electrónico</string>
     <string name="login_hint_password">Contraseña</string>

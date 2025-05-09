@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.navigation.safe.args.kotlin)
+    id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -48,27 +52,29 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // Navigation component
-    implementation("androidx.navigation:navigation-fragment-ktx:2.9.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.9.0")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
     // coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
     // hilt
-    implementation("com.google.dagger:hilt-android:2.52")
-    //kapt("com.google.dagger:hilt-android-compiler:2.52")
+    implementation("com.google.dagger:hilt-android:2.56.2")
+    ksp("com.google.dagger:hilt-android-compiler:2.56.2")
+
+    // DataStore
+    implementation("androidx.datastore:datastore-preferences:1.1.6")
 
     // retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0") // ¡Ojo! Esta línea parece duplicada
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.okhttp.logging.interceptor)
 
     // Picasso
-    implementation("com.squareup.picasso:picasso:2.71828")
+    implementation(libs.picasso)
 
     // Testing
-    testImplementation("io.mockk:mockk:1.10.0")
+    testImplementation(libs.mockk)
 }
