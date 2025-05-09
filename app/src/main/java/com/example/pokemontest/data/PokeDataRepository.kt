@@ -1,6 +1,7 @@
 package com.example.pokemontest.data
 
 import com.example.pokemontest.data.mapper.DataResponseMapper
+import com.example.pokemontest.data.source.DataStoreManager
 import com.example.pokemontest.data.source.PokeRemote
 import com.example.pokemontest.domain.model.DomainMockLogin
 import com.example.pokemontest.domain.model.DomainPokemonList
@@ -11,6 +12,7 @@ import javax.inject.Inject
 
 class PokeDataRepository @Inject constructor(
     private val remote: PokeRemote,
+    private val dataStoreManager: DataStoreManager,
     private val mapper: DataResponseMapper
 ) : PokeRepository {
 
@@ -28,6 +30,7 @@ class PokeDataRepository @Inject constructor(
                 pass = pass
             ).toDomain()
         }
+        dataStoreManager.saveAccessToken(domainLogin.accessToken)
         emit(domainLogin)
     }
 }

@@ -20,10 +20,10 @@ class DataResponseMapper @Inject constructor() {
     )
 
     fun MockLoginResponse.toDomain() = DomainMockLogin(
-        accessToken = accessToken,
-        tokenType = tokenType,
-        expiresIn = expiresIn,
-        refreshToken = refreshToken,
-        scope = scope
+        accessToken = this.accessToken.orEmpty(),
+        tokenType = this.tokenType.orEmpty(),
+        expiresIn = this.expiresIn,
+        refreshToken = this.refreshToken.orEmpty(),
+        scope = this.scope.orEmpty(),
     )
 }

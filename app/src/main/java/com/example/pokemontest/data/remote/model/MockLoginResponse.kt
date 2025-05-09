@@ -1,9 +1,11 @@
 package com.example.pokemontest.data.remote.model
 
+import com.google.gson.annotations.SerializedName
+
 data class MockLoginResponse(
-    val accessToken: String,
-    val tokenType: String?,
-    val expiresIn: Int?,
-    val refreshToken: String?,
-    val scope: String?
+    @SerializedName("access_token") val accessToken: String?,
+    @SerializedName("token_type") val tokenType: String?,
+    @SerializedName("expires_in") val expiresIn: Int?,
+    @SerializedName("refresh_token") val refreshToken: String?,
+    @SerializedName("scope") val scope: String?
 )
