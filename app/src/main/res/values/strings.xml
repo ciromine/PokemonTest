@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">PokemonTest</string>
+    <string name="tv_title_poke_list">Lista de Pokemones</string>
+    <string name="tv_title_poke_detail">Detalle Pokemones</string>
+
+    <string name="login_title">Iniciar Sesión</string>
+    <string name="login_hint_email">Correo Electrónico</string>
+    <string name="login_hint_password">Contraseña</string>
+    <string name="login_button_login">Iniciar Sesión</string>
+    <string name="login_forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="login_register_text">¿No tienes cuenta? Regístrate aquí</string>
+    <string name="login_logo_description">Logo de la aplicación</string>
+
+    <string name="error_get_poke_list">Error al obtener lista de pokemones</string>
 </resources>
