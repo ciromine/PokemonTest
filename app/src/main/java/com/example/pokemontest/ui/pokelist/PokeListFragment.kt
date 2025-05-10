@@ -19,96 +19,66 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 @FlowPreview
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class PokeListFragment : Fragment() {
 
-    @ExperimentalCoroutinesApi
-    @FlowPreview
-    @AndroidEntryPoint
-    class PokeDetailFrafment : Fragment() {
+    private var _binding: FragmentPokeListBinding? = null
+    private val binding get() = _binding!!
 
-        var binding: FragmentPokeListBinding? = null
+    private val viewModel by viewModels<PokeListViewModel>()
 
-        private val viewModel by viewModels<PokeListViewModel>()
+    @Inject
+    lateinit var navigator: Navigator
 
-        @Inject
-        lateinit var navigator: Navigator
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentPokeListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            showMovieList()
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observePokeListResult()
+        viewModel.getPokeList()
+    }
 
-        override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            if (binding == null) {
-                binding = FragmentPokeListBinding.inflate(inflater, container, false)
-            }
-            return binding?.root
-        }
+    private fun observePokeListResult() {
+        viewModel.pokeListResult.observe(viewLifecycleOwner) { result ->
+            binding.progressBar.visibility = if (result.isLoading) View.VISIBLE else View.GONE
 
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
-            showLoading()
-            showMovieList()
-        }
-
-        private fun showLoading() {
-            binding?.progressBar?.show()
-        }
-
-        private fun hideLoading() {
-            binding?.progressBar?.hide()
-        }
-
-        private fun showError() {
-            binding?.root?.let {
-                val snackbar = Snackbar
-                    .make(
+            if (result.error) {
+                binding.root.let {
+                    Snackbar.make(
                         it,
-                        getString(R.string.error_get_poke_list),
+                        result.errorMessage ?: getString(R.string.error_get_poke_list),
                         Snackbar.LENGTH_LONG
-                    )
-                snackbar.show()
-            }
-        }
-
-        private fun showMovieList() {
-            viewModel.pokeList.observe(viewLifecycleOwner) { response ->
-                response?.let { pokeListResult ->
-                    if (!pokeListResult.error) {
-                        hideLoading()
-                        pokeListResult.results?.let { result ->
-                            val adapter = PokeListAdapter(result) {
-                                onItemCharacterTapped(it)
-                            }
-                            binding?.apply {
-                                mainRecycler.adapter = adapter
-                                mainRecycler.show()
-                            }
-                        }
-                    } else {
-                        hideLoading()
-                        showError()
+                    ).show()
+                }
+            } else {
+                result.results.let { pokemonList ->
+                    val adapter = PokeListAdapter(pokemonList) { pokemon ->
+                        onItemCharacterTapped(pokemon)
                     }
+                    binding.mainRecycler.adapter = adapter
+                    binding.mainRecycler.visibility = View.VISIBLE
                 }
             }
         }
+    }
 
-        private fun onItemCharacterTapped(domainMovie: DomainPokemon) {
-            binding?.let {
-                navigator.goToPokeDetail(it.root, domainMovie)
-            }
+    private fun onItemCharacterTapped(domainPokemon: DomainPokemon) {
+        binding.root.let {
+            navigator.goToPokeDetail(it, domainPokemon)
         }
+    }
 
-        override fun onDestroy() {
-            super.onDestroy()
-            binding = null
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

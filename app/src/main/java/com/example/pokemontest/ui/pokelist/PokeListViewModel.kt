@@ -1,49 +1,89 @@
 package com.example.pokemontest.ui.pokelist
 
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokemontest.core.Resource
+import com.example.pokemontest.domain.model.DomainPokemon
 import com.example.pokemontest.domain.usecases.GetPokemonListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 @HiltViewModel
 class PokeListViewModel @Inject constructor(
-    private val useCase: GetPokemonListUseCase
-) : ViewModel(), LifecycleObserver {
+    private val getPokemonListUseCase: GetPokemonListUseCase
+) : ViewModel() {
 
-    private var _pokeListMutable = MutableLiveData<PokeListResult>()
-    val pokeList: LiveData<PokeListResult> = _pokeListMutable
+    private var _pokeListResult = MutableLiveData<PokeListResult>()
+    val pokeListResult: LiveData<PokeListResult> = _pokeListResult
 
     init {
         getPokeList()
     }
 
-    private fun getPokeList() {
-        useCase(limit = 150).onEach { result ->
-            when (result) {
-                is Resource.Success -> {
-                    _pokeListMutable.value =
-                        PokeListResult(results = result.data?.results, error = false)
-                }
+    fun getPokeList(limit: Int = 150) {
+        getPokemonListUseCase(limit = limit)
+            .onStart {
+                _pokeListResult.value =
+                    PokeListResult(isLoading = true, results = emptyList(), error = false)
+            }
+            .onEach { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _pokeListResult.value =
+                            PokeListResult(
+                                isLoading = false,
+                                results = result.data?.results ?: emptyList(),
+                                error = false
+                            )
+                    }
 
-                is Resource.Error -> {
-                    _pokeListMutable.value = PokeListResult(results = emptyList(), error = true)
-                }
+                    is Resource.Error -> {
+                        _pokeListResult.value =
+                            PokeListResult(
+                                isLoading = false,
+                                results = emptyList(),
+                                error = true,
+                                errorMessage = result.message
+                            )
+                    }
 
-                else -> {
-                    _pokeListMutable.value = PokeListResult(results = emptyList(), error = true)
+                    is Resource.Loading -> {
+                        _pokeListResult.value =
+                            PokeListResult(isLoading = true, results = emptyList(), error = false)
+                    }
+
+                    else -> {
+                        _pokeListResult.value =
+                            PokeListResult(
+                                isLoading = false,
+                                results = emptyList(),
+                                error = true,
+                                errorMessage = result.message
+                            )
+                    }
                 }
             }
-        }.launchIn(viewModelScope)
+            .catch { error ->
+                _pokeListResult.value = PokeListResult(
+                    isLoading = false,
+                    results = emptyList(),
+                    error = true,
+                    errorMessage = error.localizedMessage ?: "An unexpected error occurred"
+                )
+            }
+            .launchIn(viewModelScope)
     }
+
+    data class PokeListResult(
+        val isLoading: Boolean = false,
+        val results: List<DomainPokemon> = emptyList(),
+        val error: Boolean = false,
+        val errorMessage: String? = null
+    )
 }

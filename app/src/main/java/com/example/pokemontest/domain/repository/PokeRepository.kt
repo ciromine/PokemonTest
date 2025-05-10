@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface PokeRepository {
     fun getPokemonList(limit: Int): Flow<DomainPokemonList>
     fun mockLogin(email: String, pass: String): Flow<DomainMockLogin>
+    fun getToken(): Flow<String?>
 }

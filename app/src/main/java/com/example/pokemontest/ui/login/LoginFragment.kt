@@ -34,22 +34,21 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        observeShouldSkipLogin()
-
         binding.buttonLogin.setOnClickListener {
             val email = binding.editTextEmail.text.toString()
             val password = binding.editTextPassword.text.toString()
             viewModel.performLogin(email, password)
         }
-
+        observeShouldSkipLogin()
         observeLoginResult()
     }
 
     private fun observeShouldSkipLogin() {
         viewModel.shouldSkipLogin.observe(viewLifecycleOwner) { shouldSkip ->
-            if (shouldSkip) {
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToPokeListFragment())
+            view?.post {
+                if (shouldSkip) {
+                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToPokeListFragment())
+                }
             }
         }
     }

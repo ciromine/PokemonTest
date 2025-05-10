@@ -33,4 +33,8 @@ class PokeDataRepository @Inject constructor(
         dataStoreManager.saveAccessToken(domainLogin.accessToken)
         emit(domainLogin)
     }
+
+    override fun getToken(): Flow<String?> = flow {
+        emit(dataStoreManager.getAccessToken())
+    }
 }
