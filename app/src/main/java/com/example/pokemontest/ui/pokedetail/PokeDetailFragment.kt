@@ -60,22 +60,32 @@ class PokeDetailFragment : Fragment() {
     private fun observePokemonDetail() {
         viewModel.pokemonDetail.observe(viewLifecycleOwner) { result ->
             binding?.apply {
-                progressBar.visibility = if (result.isLoading) View.VISIBLE else View.GONE
-                result.pokemonDetail?.let { detail ->
-                    tvName.text = detail.name
-                    detail.frontDefaultSprite?.let { url ->
-                        Picasso.get().load(url).fit().centerCrop().into(imageView)
+                when (result) {
+                    is PokeDetailViewModel.PokeDetailResult.Loading -> {
+                        progressBar.visibility = View.VISIBLE
                     }
-                    tvAbilities.text = detail.abilityNames?.joinToString(", ")
-                        ?: getString(R.string.error_get_poke_detail_habilities)
-                }
-                if (result.error) {
-                    root.let {
-                        Snackbar.make(
-                            it,
-                            result.errorMessage ?: getString(R.string.error_get_poke_detail),
-                            Snackbar.LENGTH_LONG
-                        ).show()
+
+                    is PokeDetailViewModel.PokeDetailResult.Success -> {
+                        progressBar.visibility = View.GONE
+                        val detail = result.pokemonDetail
+                        tvName.text = detail.name
+                        detail.frontDefaultSprite?.let { url ->
+                            Picasso.get().load(url).fit().centerCrop().into(imageView)
+                        }
+                        tvAbilities.text =
+                            detail.abilityNames?.joinToString(", ")
+                                ?: getString(R.string.error_get_poke_detail_habilities)
+                    }
+
+                    is PokeDetailViewModel.PokeDetailResult.Error -> {
+                        progressBar.visibility = View.GONE
+                        root.let {
+                            Snackbar.make(
+                                it,
+                                result.errorMessage,
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        }
                     }
                 }
             }

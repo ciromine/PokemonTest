@@ -11,4 +11,5 @@
     <color name="semi_transparent_dark">#80000000</color>
     <color name="semi_transparent_light">#80FFFFFF</color>
     <color name="yellow_star">#FFC107</color>
+    <color name="grey_arrow">#757575</color>
 </resources>

@@ -23,10 +23,6 @@ class PokeListViewModel @Inject constructor(
     private var _pokeListResult = MutableLiveData<PokeListResult>()
     val pokeListResult: LiveData<PokeListResult> = _pokeListResult
 
-    init {
-        getPokeList()
-    }
-
     fun getPokeList(limit: Int = Constants.TOTAL_POKEMON) {
         getPokemonListUseCase(limit = limit)
             .onStart {

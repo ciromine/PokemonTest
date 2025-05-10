@@ -47,6 +47,7 @@ class LoginFragment : Fragment() {
         navigator.setNavController(findNavController())
         observeShouldSkipLogin()
         observeLoginResult()
+        viewModel.checkIfLoggedIn()
     }
 
     private fun observeShouldSkipLogin() {

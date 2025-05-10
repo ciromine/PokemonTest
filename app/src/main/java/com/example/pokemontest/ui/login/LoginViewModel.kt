@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,16 +25,12 @@ class LoginViewModel @Inject constructor(
     private val _shouldSkipLogin = MutableLiveData<Boolean>()
     val shouldSkipLogin: LiveData<Boolean> = _shouldSkipLogin
 
-    init {
-        checkIfLoggedIn()
-    }
-
-    private fun checkIfLoggedIn() {
-        viewModelScope.launch {
-            getAccessTokenUseCase().onEach { token ->
+    fun checkIfLoggedIn() {
+        getAccessTokenUseCase()
+            .onEach { token ->
                 _shouldSkipLogin.value = !token.isNullOrEmpty()
-            }.launchIn(viewModelScope)
-        }
+            }
+            .launchIn(viewModelScope)
     }
 
     fun performLogin(email: String, pass: String) {

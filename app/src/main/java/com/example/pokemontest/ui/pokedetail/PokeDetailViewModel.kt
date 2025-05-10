@@ -25,50 +25,37 @@ class PokeDetailViewModel @Inject constructor(
     fun getPokemonDetail(name: String) {
         getPokemonDetailUseCase(name)
             .onStart {
-                _pokemonDetail.value = PokeDetailResult(isLoading = true)
+                _pokemonDetail.value = PokeDetailResult.Loading
             }
             .onEach { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _pokemonDetail.value =
-                            PokeDetailResult(isLoading = false, pokemonDetail = result.data)
+                        result.data?.let { data ->
+                            _pokemonDetail.value = PokeDetailResult.Success(data)
+                        }
                     }
-
                     is Resource.Error -> {
-                        _pokemonDetail.value = PokeDetailResult(
-                            isLoading = false,
-                            error = true,
-                            errorMessage = result.message
-                        )
+                        _pokemonDetail.value = PokeDetailResult.Error(result.message ?: "An unexpected error occurred")
                     }
-
                     is Resource.Loading -> {
-                        _pokemonDetail.value = PokeDetailResult(isLoading = true)
+                        _pokemonDetail.value = PokeDetailResult.Loading
                     }
 
                     else -> {
-                        _pokemonDetail.value = PokeDetailResult(
-                            isLoading = false,
-                            error = true,
-                            errorMessage = result.message
-                        )
+                        _pokemonDetail.value = PokeDetailResult.Error(result.message ?: "An unexpected error occurred")
                     }
                 }
             }
             .catch { error ->
-                _pokemonDetail.value = PokeDetailResult(
-                    isLoading = false,
-                    error = true,
-                    errorMessage = error.localizedMessage ?: "An unexpected error occurred"
-                )
+                _pokemonDetail.value =
+                    PokeDetailResult.Error(error.localizedMessage ?: "An unexpected error occurred")
             }
             .launchIn(viewModelScope)
     }
 
-    data class PokeDetailResult(
-        val isLoading: Boolean = false,
-        val pokemonDetail: DomainPokemonDetail? = null,
-        val error: Boolean = false,
-        val errorMessage: String? = null
-    )
+    sealed class PokeDetailResult {
+        data object Loading : PokeDetailResult()
+        data class Success(val pokemonDetail: DomainPokemonDetail) : PokeDetailResult()
+        data class Error(val errorMessage: String) : PokeDetailResult()
+    }
 }
