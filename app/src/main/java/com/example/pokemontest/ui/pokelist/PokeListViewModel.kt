@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.pokemontest.core.Resource
 import com.example.pokemontest.domain.model.DomainPokemon
 import com.example.pokemontest.domain.usecases.GetPokemonListUseCase
+import com.example.pokemontest.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -26,7 +27,7 @@ class PokeListViewModel @Inject constructor(
         getPokeList()
     }
 
-    fun getPokeList(limit: Int = 150) {
+    fun getPokeList(limit: Int = Constants.TOTAL_POKEMON) {
         getPokemonListUseCase(limit = limit)
             .onStart {
                 _pokeListResult.value =

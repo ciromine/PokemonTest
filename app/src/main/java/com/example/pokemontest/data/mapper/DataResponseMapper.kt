@@ -1,10 +1,12 @@
 package com.example.pokemontest.data.mapper
 
 import com.example.pokemontest.data.remote.model.MockLoginResponse
+import com.example.pokemontest.data.remote.model.PokemonDetailResponse
 import com.example.pokemontest.data.remote.model.PokemonListResponse
 import com.example.pokemontest.data.remote.model.PokemonResponse
 import com.example.pokemontest.domain.model.DomainMockLogin
 import com.example.pokemontest.domain.model.DomainPokemon
+import com.example.pokemontest.domain.model.DomainPokemonDetail
 import com.example.pokemontest.domain.model.DomainPokemonList
 import javax.inject.Inject
 
@@ -17,6 +19,12 @@ class DataResponseMapper @Inject constructor() {
     private fun PokemonResponse.toDomainItem() = DomainPokemon(
         name = name,
         url = url
+    )
+
+    fun PokemonDetailResponse.toDomain() = DomainPokemonDetail(
+        name = this.name,
+        backDefaultSprite = this.sprites?.backDefault,
+        abilityNames = this.abilities?.map { it.ability?.name }
     )
 
     fun MockLoginResponse.toDomain() = DomainMockLogin(

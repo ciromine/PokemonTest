@@ -11,8 +11,6 @@ import com.example.pokemontest.databinding.FragmentPokeListBinding
 import com.example.pokemontest.domain.model.DomainPokemon
 import com.example.pokemontest.ui.navigator.Navigator
 import com.example.pokemontest.ui.pokelist.adapter.PokeListAdapter
-import com.example.pokemontest.utils.hide
-import com.example.pokemontest.utils.show
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -11,8 +11,8 @@ class PokeViewHolder(val binding: ViewItemPokeBinding) :
     fun bind(attrs: DomainPokemon, onClickListener: (DomainPokemon) -> Unit) {
         binding.apply {
             title.text = attrs.name
-            /*root.setOnClickListener { onClickListener.invoke(attrs) }
-            Picasso.get().load(Constants.baseUrlImages + attrs.posterPath)
+            root.setOnClickListener { onClickListener.invoke(attrs) }
+            /*Picasso.get().load(Constants.baseUrlImages + attrs.posterPath)
                 .fit().centerCrop()
                 .into(image)*/
         }

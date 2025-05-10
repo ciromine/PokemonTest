@@ -6,5 +6,6 @@ class Constants {
         const val AUTH_API_BASE_URL = "https://raw.githubusercontent.com/ciromine/Apis/refs/heads/main/Login/"
         const val LOGIN_URL = "login.json"
         const val GET_POKEMONS = "pokemon"
+        const val TOTAL_POKEMON = 1025
     }
 }

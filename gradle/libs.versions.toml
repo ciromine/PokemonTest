@@ -15,7 +15,7 @@ coroutines = "1.8.1"
 hilt = "2.52"
 retrofit = "2.9.0"
 okhttpLogging = "4.9.0"
-picasso = "2.71828"
+picasso = "2.8"
 mockk = "1.10.0"
 navigation-safe-args = "2.7.7"
 
