@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.pokemontest.R
 import com.example.pokemontest.databinding.FragmentPokeDetailBinding
 import com.example.pokemontest.domain.model.DomainPokemon
+import com.example.pokemontest.ui.navigator.Navigator
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PokeDetailFragment : Fragment() {
@@ -19,6 +22,10 @@ class PokeDetailFragment : Fragment() {
     var binding: FragmentPokeDetailBinding? = null
     private val viewModel: PokeDetailViewModel by viewModels()
     var pokemon: DomainPokemon? = null
+    private var isFavorite = false
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +44,17 @@ class PokeDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pokemon?.name?.let { viewModel.getPokemonDetail(it) }
+        navigator.setNavController(findNavController())
         observePokemonDetail()
+
+        binding?.ivFavorite?.setOnClickListener {
+            pokemon?.let {
+                isFavorite = !isFavorite
+                updateFavoriteIcon()
+                //viewModel.toggleFavorite(it.name)
+            }
+        }
+        updateFavoriteIcon()
     }
 
     private fun observePokemonDetail() {
@@ -46,7 +63,7 @@ class PokeDetailFragment : Fragment() {
                 progressBar.visibility = if (result.isLoading) View.VISIBLE else View.GONE
                 result.pokemonDetail?.let { detail ->
                     tvName.text = detail.name
-                    detail.backDefaultSprite?.let { url ->
+                    detail.frontDefaultSprite?.let { url ->
                         Picasso.get().load(url).fit().centerCrop().into(imageView)
                     }
                     tvAbilities.text = detail.abilityNames?.joinToString(", ")
@@ -63,6 +80,10 @@ class PokeDetailFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun updateFavoriteIcon() {
+        binding?.ivFavorite?.setImageResource(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border)
     }
 
     override fun onDestroyView() {

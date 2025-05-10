@@ -15,4 +15,6 @@
     <string name="error_get_poke_list">Error al obtener lista de pokemones</string>
     <string name="error_get_poke_detail">Error al cargar los detalles del Pokemon</string>
     <string name="error_get_poke_detail_habilities">Sin habilidades</string>
+
+    <string name="abilities">Habilidades</string>
 </resources>

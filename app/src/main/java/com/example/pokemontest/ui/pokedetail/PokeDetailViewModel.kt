@@ -30,22 +30,37 @@ class PokeDetailViewModel @Inject constructor(
             .onEach { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _pokemonDetail.value = PokeDetailResult(isLoading = false, pokemonDetail = result.data)
+                        _pokemonDetail.value =
+                            PokeDetailResult(isLoading = false, pokemonDetail = result.data)
                     }
+
                     is Resource.Error -> {
-                        _pokemonDetail.value = PokeDetailResult(isLoading = false, error = true, errorMessage = result.message)
+                        _pokemonDetail.value = PokeDetailResult(
+                            isLoading = false,
+                            error = true,
+                            errorMessage = result.message
+                        )
                     }
+
                     is Resource.Loading -> {
                         _pokemonDetail.value = PokeDetailResult(isLoading = true)
                     }
 
                     else -> {
-                        _pokemonDetail.value = PokeDetailResult(isLoading = false, error = true, errorMessage = result.message)
+                        _pokemonDetail.value = PokeDetailResult(
+                            isLoading = false,
+                            error = true,
+                            errorMessage = result.message
+                        )
                     }
                 }
             }
             .catch { error ->
-                _pokemonDetail.value = PokeDetailResult(isLoading = false, error = true, errorMessage = error.localizedMessage ?: "An unexpected error occurred")
+                _pokemonDetail.value = PokeDetailResult(
+                    isLoading = false,
+                    error = true,
+                    errorMessage = error.localizedMessage ?: "An unexpected error occurred"
+                )
             }
             .launchIn(viewModelScope)
     }

@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.pokemontest.databinding.FragmentLoginBinding
+import com.example.pokemontest.ui.navigator.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -22,6 +24,9 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: LoginViewModel by viewModels()
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +44,7 @@ class LoginFragment : Fragment() {
             val password = binding.editTextPassword.text.toString()
             viewModel.performLogin(email, password)
         }
+        navigator.setNavController(findNavController())
         observeShouldSkipLogin()
         observeLoginResult()
     }
@@ -47,7 +53,7 @@ class LoginFragment : Fragment() {
         viewModel.shouldSkipLogin.observe(viewLifecycleOwner) { shouldSkip ->
             view?.post {
                 if (shouldSkip) {
-                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToPokeListFragment())
+                    navigator.goToPokeList()
                 }
             }
         }
@@ -64,7 +70,7 @@ class LoginFragment : Fragment() {
                 LoginViewModel.LoginResult.Success -> {
                     binding.progressBar.visibility = View.GONE
                     binding.buttonLogin.isEnabled = true
-                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToPokeListFragment())
+                    navigator.goToPokeList()
                 }
 
                 is LoginViewModel.LoginResult.Error -> {

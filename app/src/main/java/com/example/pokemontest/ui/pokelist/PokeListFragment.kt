@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.pokemontest.R
 import com.example.pokemontest.databinding.FragmentPokeListBinding
 import com.example.pokemontest.domain.model.DomainPokemon
@@ -41,6 +42,7 @@ class PokeListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navigator.setNavController(findNavController())
         observePokeListResult()
         viewModel.getPokeList()
     }
