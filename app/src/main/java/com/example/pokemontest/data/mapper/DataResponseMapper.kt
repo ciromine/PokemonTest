@@ -22,6 +22,7 @@ class DataResponseMapper @Inject constructor() {
     )
 
     fun PokemonDetailResponse.toDomain() = DomainPokemonDetail(
+        id = this.id,
         name = this.name,
         frontDefaultSprite = this.sprites?.frontDefault,
         abilityNames = this.abilities?.map { it.ability?.name }

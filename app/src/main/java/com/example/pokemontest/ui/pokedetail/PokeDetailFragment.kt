@@ -46,15 +46,21 @@ class PokeDetailFragment : Fragment() {
         pokemon?.name?.let { viewModel.getPokemonDetail(it) }
         navigator.setNavController(findNavController())
         observePokemonDetail()
+        observeIsFavorite()
 
         binding?.ivFavorite?.setOnClickListener {
             pokemon?.let {
-                isFavorite = !isFavorite
-                updateFavoriteIcon()
-                //viewModel.toggleFavorite(it.name)
+                viewModel.toggleFavorite()
             }
         }
         updateFavoriteIcon()
+    }
+
+    private fun observeIsFavorite() {
+        viewModel.isFavorite.observe(viewLifecycleOwner) { isFav ->
+            isFavorite = isFav
+            updateFavoriteIcon()
+        }
     }
 
     private fun observePokemonDetail() {

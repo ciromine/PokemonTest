@@ -10,4 +10,7 @@ interface PokeRepository {
     fun getPokemonDetail(name: String): Flow<DomainPokemonDetail>
     fun mockLogin(email: String, pass: String): Flow<DomainMockLogin>
     fun getToken(): Flow<String?>
+    suspend fun saveFavoritePokemonId(pokemonId: Int)
+    suspend fun removeFavoritePokemonId(pokemonId: Int)
+    fun isPokemonFavorite(pokemonId: Int): Flow<Boolean>
 }
