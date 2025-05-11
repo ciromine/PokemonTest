@@ -64,7 +64,7 @@ dependencies {
     ksp("com.google.dagger:hilt-android-compiler:2.56.2")
 
     // DataStore
-    implementation("androidx.datastore:datastore-preferences:1.1.6")
+    implementation(libs.androidx.datastore.preferences)
 
     // retrofit
     implementation(libs.retrofit)
