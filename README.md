@@ -6,7 +6,7 @@
 
 * **Sin Figma:** Como nunca me dieron acceso a Figma, hice lo que se me ocurrió.
 * **App Simple:** La app se ve simple, tiene una lista con todos los pokemones (sin paginar), tiene un detalle bien simple, ya que más que hacer un detalle complejo que es como leer bien el JSON, preferí preocuparme de la arquitectura y los test.
-* **Favoritos:** Al igual que el punto anterior, favoritos solo marca o desmarca el icono de favoritos y suma estadística, por temas de tiempo y para farle más enfoque y compejidad a la arquiectura y los test.
+* **Favoritos:** Al igual que el punto anterior, favoritos solo marca o desmarca el icono de favoritos y suma estadística, por temas de tiempo y para enfocarme en la arquitectura y los test.
 
 ## Características Principales
 
@@ -36,22 +36,22 @@ Esta aplicación está diseñada para funcionar en dispositivos con las siguient
 
 PokemonTest se construyó utilizando las siguientes librerías clave para ofrecer una experiencia robusta y eficiente:
 
-* **Navigation Component:** (`androidx.navigation:navigation-fragment-ktx`, `androidx.navigation:navigation-ui-ktx`)
+* **Navigation Component:**
     * Facilita la navegación fluida entre las diferentes pantallas (Fragments) de la aplicación.
-* **Kotlin Coroutines:** (`org.jetbrains.kotlinx:kotlinx-coroutines-core`, `org.jetbrains.kotlinx:kotlinx-coroutines-android`)
+* **Kotlin Coroutines:** 
     * Proporciona una forma concisa y eficiente de manejar tareas asíncronas, como llamadas de red y operaciones en segundo plano.
-* **Hilt:** (`com.google.dagger:hilt-android:2.56.2`, `com.google.dagger:hilt-android-compiler:2.56.2` - a través de KSP)
+* **Hilt:** 
     * Una librería de inyección de dependencias que simplifica la gestión de dependencias en toda la aplicación, mejorando la modularidad y la capacidad de prueba.
-* **DataStore Preferences:** (`androidx.datastore:datastore-preferences`)
+* **DataStore Preferences:** 
     * Una solución moderna y segura para almacenar datos clave-valor de forma asíncrona y con consistencia transaccional. Se utiliza para gestionar las preferencias del usuario, como los Pokémon favoritos.
-* **Retrofit:** (`com.squareup.retrofit2:retrofit`, `com.squareup.retrofit2:converter-gson` o `com.squareup.retrofit2:converter-moshi`)
+* **Retrofit:** 
     * Una potente librería para realizar llamadas de red HTTP de forma sencilla. Se utiliza para comunicarse con la API de Pokémon.
     * **Gson/Moshi Converter:** Se utiliza para convertir las respuestas JSON de la API a objetos Kotlin.
-* **OkHttp Logging Interceptor:** (`com.squareup.okhttp3:logging-interceptor`)
+* **OkHttp Logging Interceptor:**
     * Un interceptor para OkHttp que registra las solicitudes y respuestas HTTP, lo que facilita la depuración de problemas de red.
-* **Picasso:** (`com.squareup.picasso:picasso`)
+* **Picasso:**
     * Una librería popular para la carga y gestión eficiente de imágenes desde URLs. Se utiliza para mostrar las imágenes de los Pokémon.
-* **MockK:** (`io.mockk:mockk`)
+* **MockK:**
     * Una librería de mocking para Kotlin que facilita la creación de mocks para pruebas unitarias, permitiendo aislar y verificar el comportamiento de los componentes de la aplicación.
 
 ¡Gracias por explorar PokemonTest! ¡Esperamos que disfrutes descubriendo a tus Pokémon favoritos!
