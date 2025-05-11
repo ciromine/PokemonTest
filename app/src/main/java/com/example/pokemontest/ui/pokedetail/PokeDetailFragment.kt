@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.pokemontest.R
+import com.example.pokemontest.databinding.FragmentLoginBinding
 import com.example.pokemontest.databinding.FragmentPokeDetailBinding
 import com.example.pokemontest.domain.model.DomainPokemon
 import com.example.pokemontest.ui.navigator.Navigator
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PokeDetailFragment : Fragment() {
 
-    var binding: FragmentPokeDetailBinding? = null
+    private var _binding: FragmentPokeDetailBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: PokeDetailViewModel by viewModels()
     var pokemon: DomainPokemon? = null
     private var isFavorite = false
@@ -37,8 +39,8 @@ class PokeDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPokeDetailBinding.inflate(inflater, container, false)
-        return binding!!.root
+        _binding = FragmentPokeDetailBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,10 +87,14 @@ class PokeDetailFragment : Fragment() {
 
                     is PokeDetailViewModel.PokeDetailResult.Error -> {
                         progressBar.visibility = View.GONE
+                        val errorMessage = when (result.errorMessage) {
+                            UNEXPECTED_ERROR -> getString(R.string.error_unexpected)
+                            else -> result.errorMessage
+                        }
                         root.let {
                             Snackbar.make(
                                 it,
-                                result.errorMessage,
+                                errorMessage,
                                 Snackbar.LENGTH_LONG
                             ).show()
                         }
@@ -104,6 +110,8 @@ class PokeDetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 }
+
+private const val UNEXPECTED_ERROR = "unexpected_error"

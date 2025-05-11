@@ -19,4 +19,9 @@
     <string name="error_loading_pokemon">Error al cargar la lista de Pokémon.</string>
 
     <string name="abilities">Habilidades</string>
+
+    <string name="profile">Perfil de usuario</string>
+    <string name="statistics">Estadísticas</string>
+    <string name="pokemon_viewed_count">Pokémon Vistos:</string>
+    <string name="favorite_pokemon_count">Total Favoritos:</string>
 </resources>

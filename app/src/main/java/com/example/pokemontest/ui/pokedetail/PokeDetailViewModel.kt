@@ -8,6 +8,7 @@ import com.example.pokemontest.core.Resource
 import com.example.pokemontest.domain.model.DomainPokemonDetail
 import com.example.pokemontest.domain.usecase.SaveFavoritePokemonUseCase
 import com.example.pokemontest.domain.usecases.GetPokemonDetailUseCase
+import com.example.pokemontest.domain.usecases.IncrementViewedPokemonCountUseCase
 import com.example.pokemontest.domain.usecases.IsPokemonFavoriteUseCase
 import com.example.pokemontest.domain.usecases.RemoveFavoritePokemonUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,8 @@ class PokeDetailViewModel @Inject constructor(
     private val getPokemonDetailUseCase: GetPokemonDetailUseCase,
     private val saveFavoritePokemonUseCase: SaveFavoritePokemonUseCase,
     private val removeFavoritePokemonUseCase: RemoveFavoritePokemonUseCase,
-    private val isPokemonFavoriteUseCase: IsPokemonFavoriteUseCase
+    private val isPokemonFavoriteUseCase: IsPokemonFavoriteUseCase,
+    private val incrementViewedPokemonCountUseCase: IncrementViewedPokemonCountUseCase
 ) : ViewModel() {
 
     private val _pokemonDetail = MutableLiveData<PokeDetailResult>()
@@ -45,12 +47,13 @@ class PokeDetailViewModel @Inject constructor(
                             _pokemonDetail.value = PokeDetailResult.Success(data)
                             currentPokemonId = data.id
                             currentPokemonId?.let { checkIsFavorite(it) }
+                            incrementViewCount()
                         }
                     }
 
                     is Resource.Error -> {
                         _pokemonDetail.value =
-                            PokeDetailResult.Error(result.message ?: "An unexpected error occurred")
+                            PokeDetailResult.Error(result.message ?: UNEXPECTED_ERROR)
                     }
 
                     is Resource.Loading -> {
@@ -59,13 +62,13 @@ class PokeDetailViewModel @Inject constructor(
 
                     else -> {
                         _pokemonDetail.value =
-                            PokeDetailResult.Error(result.message ?: "An unexpected error occurred")
+                            PokeDetailResult.Error(result.message ?: UNEXPECTED_ERROR)
                     }
                 }
             }
             .catch { error ->
                 _pokemonDetail.value =
-                    PokeDetailResult.Error(error.localizedMessage ?: "An unexpected error occurred")
+                    PokeDetailResult.Error(error.localizedMessage ?: UNEXPECTED_ERROR)
             }
             .launchIn(viewModelScope)
     }
@@ -92,9 +95,18 @@ class PokeDetailViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    private fun incrementViewCount() {
+        viewModelScope.launch {
+            incrementViewedPokemonCountUseCase()
+        }
+    }
+
     sealed class PokeDetailResult {
         data object Loading : PokeDetailResult()
         data class Success(val pokemonDetail: DomainPokemonDetail) : PokeDetailResult()
         data class Error(val errorMessage: String) : PokeDetailResult()
     }
 }
+
+private const val UNEXPECTED_ERROR = "unexpected_error"
+

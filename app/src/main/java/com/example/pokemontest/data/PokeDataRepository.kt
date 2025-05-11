@@ -57,4 +57,16 @@ class PokeDataRepository @Inject constructor(
     override fun isPokemonFavorite(pokemonId: Int): Flow<Boolean> = flow {
         emit(dataStoreManager.isPokemonFavorite(pokemonId))
     }
+
+    override suspend fun incrementViewedPokemonCount() {
+        dataStoreManager.incrementViewedPokemonCount()
+    }
+
+    override fun getViewedPokemonCount(): Flow<Int> = flow {
+        emit(dataStoreManager.getViewedPokemonCount())
+    }
+
+    override fun getTotalFavoritePokemonCount(): Flow<Int> = flow {
+        emit(dataStoreManager.getTotalFavoritePokemonCount())
+    }
 }

@@ -13,4 +13,7 @@ interface PokeRepository {
     suspend fun saveFavoritePokemonId(pokemonId: Int)
     suspend fun removeFavoritePokemonId(pokemonId: Int)
     fun isPokemonFavorite(pokemonId: Int): Flow<Boolean>
+    suspend fun incrementViewedPokemonCount()
+    fun getViewedPokemonCount(): Flow<Int>
+    fun getTotalFavoritePokemonCount(): Flow<Int>
 }

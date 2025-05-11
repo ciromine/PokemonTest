@@ -3,6 +3,7 @@ package com.example.pokemontest.data.source
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -14,6 +15,7 @@ class DataStoreManager @Inject constructor(private val dataStore: DataStore<Pref
 
     private val accessTokenKey = stringPreferencesKey("access_token")
     private val favoritePokemonsKey = stringPreferencesKey("favorite_pokemons")
+    private val viewedPokemonCountKey = intPreferencesKey("viewed_pokemon_count")
 
     suspend fun saveAccessToken(token: String) {
         dataStore.edit { preferences ->
@@ -53,6 +55,25 @@ class DataStoreManager @Inject constructor(private val dataStore: DataStore<Pref
         return dataStore.data.map { preferences ->
             preferences[favoritePokemonsKey]?.split(",")?.mapNotNull { it.toIntOrNull() }
                 ?.contains(pokemonId) ?: false
+        }.first()
+    }
+
+    suspend fun incrementViewedPokemonCount() {
+        dataStore.edit { preferences ->
+            val currentCount = preferences[viewedPokemonCountKey] ?: 0
+            preferences[viewedPokemonCountKey] = currentCount + 1
+        }
+    }
+
+    suspend fun getViewedPokemonCount(): Int {
+        return dataStore.data.map { preferences ->
+            preferences[viewedPokemonCountKey] ?: 0
+        }.first()
+    }
+
+    suspend fun getTotalFavoritePokemonCount(): Int {
+        return dataStore.data.map { preferences ->
+            preferences[favoritePokemonsKey]?.split(",")?.filterNot { it.isBlank() }?.count() ?: 0
         }.first()
     }
 }

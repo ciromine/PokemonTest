@@ -1,6 +1,7 @@
 package com.example.pokemontest.ui
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -91,10 +92,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
                 super.onBackPressed()
+                true
+            }
+
+            R.id.action_profile -> {
+                navHostFragment.navController.navigate(R.id.profileFragmente)
                 true
             }
 
