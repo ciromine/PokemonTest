@@ -105,7 +105,7 @@ class PokeDetailFragment : Fragment() {
     }
 
     private fun updateFavoriteIcon() {
-        binding?.ivFavorite?.setImageResource(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border)
+        binding.ivFavorite.setImageResource(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border)
     }
 
     override fun onDestroyView() {

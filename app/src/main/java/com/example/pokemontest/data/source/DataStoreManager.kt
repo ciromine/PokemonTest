@@ -13,9 +13,9 @@ import javax.inject.Singleton
 @Singleton
 class DataStoreManager @Inject constructor(private val dataStore: DataStore<Preferences>) {
 
-    private val accessTokenKey = stringPreferencesKey("access_token")
-    private val favoritePokemonsKey = stringPreferencesKey("favorite_pokemons")
-    private val viewedPokemonCountKey = intPreferencesKey("viewed_pokemon_count")
+    private val accessTokenKey = stringPreferencesKey(ACCESS_TOKEN)
+    private val favoritePokemonsKey = stringPreferencesKey(FAVORITE_POKEMONS)
+    private val viewedPokemonCountKey = intPreferencesKey(VIEWED_POKEMON_COUNT)
 
     suspend fun saveAccessToken(token: String) {
         dataStore.edit { preferences ->
@@ -77,3 +77,7 @@ class DataStoreManager @Inject constructor(private val dataStore: DataStore<Pref
         }.first()
     }
 }
+
+private const val ACCESS_TOKEN = "access_token"
+private const val FAVORITE_POKEMONS = "favorite_pokemons"
+private const val VIEWED_POKEMON_COUNT = "viewed_pokemon_count"

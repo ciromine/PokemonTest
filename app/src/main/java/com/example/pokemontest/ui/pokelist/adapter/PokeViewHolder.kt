@@ -13,8 +13,10 @@ class PokeViewHolder(val binding: ViewItemPokeBinding) :
         binding.apply {
             tvPokeName.text = attrs.name
             root.setOnClickListener { onClickListener.invoke(attrs) }
-            Picasso.get().load(Constants.IMAGE_URL + id + ".png").fit().centerCrop()
+            Picasso.get().load(Constants.IMAGE_URL + id + PNG).fit().centerCrop()
                 .into(ivPokeImage)
         }
     }
 }
+
+private const val PNG = ".png"

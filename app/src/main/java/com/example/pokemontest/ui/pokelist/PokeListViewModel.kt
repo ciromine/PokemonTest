@@ -26,61 +26,36 @@ class PokeListViewModel @Inject constructor(
     fun getPokeList(limit: Int = Constants.TOTAL_POKEMON) {
         getPokemonListUseCase(limit = limit)
             .onStart {
-                _pokeListResult.value =
-                    PokeListResult(isLoading = true, results = emptyList(), error = false)
+                _pokeListResult.value = PokeListResult.Loading
             }
             .onEach { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _pokeListResult.value =
-                            PokeListResult(
-                                isLoading = false,
-                                results = result.data?.results ?: emptyList(),
-                                error = false
-                            )
+                        _pokeListResult.value = PokeListResult.Success(result.data?.results ?: emptyList())
                     }
 
                     is Resource.Error -> {
-                        _pokeListResult.value =
-                            PokeListResult(
-                                isLoading = false,
-                                results = emptyList(),
-                                error = true,
-                                errorMessage = result.message
-                            )
+                        _pokeListResult.value = PokeListResult.Error(result.message)
                     }
 
                     is Resource.Loading -> {
-                        _pokeListResult.value =
-                            PokeListResult(isLoading = true, results = emptyList(), error = false)
+                        _pokeListResult.value = PokeListResult.Loading
                     }
 
                     else -> {
-                        _pokeListResult.value =
-                            PokeListResult(
-                                isLoading = false,
-                                results = emptyList(),
-                                error = true,
-                                errorMessage = result.message
-                            )
+                        _pokeListResult.value = PokeListResult.Error(result.message)
                     }
                 }
             }
             .catch { error ->
-                _pokeListResult.value = PokeListResult(
-                    isLoading = false,
-                    results = emptyList(),
-                    error = true,
-                    errorMessage = error.localizedMessage ?: "An unexpected error occurred"
-                )
+                _pokeListResult.value = PokeListResult.Error(error.localizedMessage ?: "An unexpected error occurred")
             }
             .launchIn(viewModelScope)
     }
 
-    data class PokeListResult(
-        val isLoading: Boolean = false,
-        val results: List<DomainPokemon> = emptyList(),
-        val error: Boolean = false,
-        val errorMessage: String? = null
-    )
+    sealed class PokeListResult {
+        data object Loading : PokeListResult()
+        data class Success(val results: List<DomainPokemon>) : PokeListResult()
+        data class Error(val errorMessage: String?) : PokeListResult()
+    }
 }

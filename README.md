@@ -54,4 +54,4 @@ PokemonTest se construyó utilizando las siguientes librerías clave para ofrece
 * **MockK:**
     * Una librería de mocking para Kotlin que facilita la creación de mocks para pruebas unitarias, permitiendo aislar y verificar el comportamiento de los componentes de la aplicación.
 
-¡Gracias por explorar PokemonTest! ¡Esperamos que disfrutes descubriendo a tus Pokémon favoritos!
+¡Gracias por explorar PokemonTest! ¡Espero que disfrutes descubriendo a tus Pokémon favoritos!

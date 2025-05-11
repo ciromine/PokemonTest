@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pokemontest.R
 import com.example.pokemontest.databinding.FragmentPokeListBinding
 import com.example.pokemontest.domain.model.DomainPokemon
@@ -45,24 +46,34 @@ class PokeListFragment : Fragment() {
 
     private fun observePokeListResult() {
         viewModel.pokeListResult.observe(viewLifecycleOwner) { result ->
-            binding.progressBar.visibility = if (result.isLoading) View.VISIBLE else View.GONE
+            binding.progressBar.visibility =
+                if (result is PokeListViewModel.PokeListResult.Loading) View.VISIBLE else View.GONE
 
-            if (result.error) {
-                binding.root.let {
-                    Snackbar.make(
-                        it,
-                        result.errorMessage ?: getString(R.string.error_get_poke_list),
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                }
-            } else {
-                result.results.let { pokemonList ->
+            when (result) {
+                is PokeListViewModel.PokeListResult.Success -> {
+                    val pokemonList = result.results
                     val pokemonIds = pokemonList.mapIndexed { index, _ -> index + 1 }
                     val adapter = PokeListAdapter(pokemonList, pokemonIds) { pokemon ->
                         onItemCharacterTapped(pokemon)
                     }
+                    binding.mainRecycler.layoutManager = LinearLayoutManager(requireContext())
                     binding.mainRecycler.adapter = adapter
                     binding.mainRecycler.visibility = View.VISIBLE
+                }
+
+                is PokeListViewModel.PokeListResult.Error -> {
+                    binding.root.let {
+                        Snackbar.make(
+                            it,
+                            result.errorMessage ?: getString(R.string.error_get_poke_list),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+                    binding.mainRecycler.visibility = View.GONE
+                }
+
+                is PokeListViewModel.PokeListResult.Loading -> {
+                    binding.mainRecycler.visibility = View.GONE
                 }
             }
         }
