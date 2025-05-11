@@ -7,5 +7,6 @@ class Constants {
         const val LOGIN_URL = "login.json"
         const val GET_POKEMONS = "pokemon"
         const val TOTAL_POKEMON = 1025
+        const val IMAGE_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
     }
 }

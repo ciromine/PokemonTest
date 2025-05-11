@@ -8,6 +8,7 @@ import com.example.pokemontest.domain.model.DomainPokemon
 
 class PokeListAdapter(
     private val items: List<DomainPokemon>,
+    private val itemIds: List<Int>,
     private val onItemClickListener: (DomainPokemon) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -21,6 +22,7 @@ class PokeListAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val summary = items[position]
-        (holder as PokeViewHolder).bind(summary, onItemClickListener)
+        val id = itemIds[position]
+        (holder as PokeViewHolder).bind(summary, id, onItemClickListener)
     }
 }

@@ -14,9 +14,13 @@ Es importante destacar que el diseño visual de esta aplicación fue concebido y
 * **Favoritos:** Marca Pokémon como favoritos para acceder a ellos fácilmente.
 * **Estadpsiticas:** Hay una sección de Perfil con estadísticas básicas del uso de la app.
 
+## Test unitarios
+
+Para correr test unitarios: ```./gradlew test```
+
 ## Arquitectura 
 
-MVVM.
+MVVM con Clean Arquitecture.
 
 ## Compatibilidad con Android
 

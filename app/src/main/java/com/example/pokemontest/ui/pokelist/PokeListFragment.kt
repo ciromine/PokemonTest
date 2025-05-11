@@ -14,12 +14,8 @@ import com.example.pokemontest.ui.navigator.Navigator
 import com.example.pokemontest.ui.pokelist.adapter.PokeListAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class PokeListFragment : Fragment() {
 
@@ -61,7 +57,8 @@ class PokeListFragment : Fragment() {
                 }
             } else {
                 result.results.let { pokemonList ->
-                    val adapter = PokeListAdapter(pokemonList) { pokemon ->
+                    val pokemonIds = pokemonList.mapIndexed { index, _ -> index + 1 }
+                    val adapter = PokeListAdapter(pokemonList, pokemonIds) { pokemon ->
                         onItemCharacterTapped(pokemon)
                     }
                     binding.mainRecycler.adapter = adapter
