@@ -2,10 +2,6 @@
 
 ¡Bienvenido a PokemonTest! Esta es una aplicación para explorar el fascinante mundo de los Pokémon, permitiéndote navegar por una lista, ver detalles individuales y marcar tus favoritos.
 
-**Un Diseño Hecho con Cariño (Sin Figma, ya que nunca me dieron acceso al solicitado en las instrucciones):**
-
-Es importante destacar que el diseño visual de esta aplicación fue concebido y desarrollado íntegramente por el creador, sin acceso a un diseño previo en Figma. Cada pantalla y componente se construyó con dedicación y un enfoque en la experiencia del usuario. ¡Espero que lo disfrutes!
-
 ## Consideraciones
 
 * **Sin Figma:** Como nunca me dieron acceso a Figma, hice lo que se me ocurrió.
