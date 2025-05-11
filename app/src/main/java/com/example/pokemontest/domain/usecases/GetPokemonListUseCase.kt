@@ -15,7 +15,6 @@ class GetPokemonListUseCase @Inject constructor(
 ) {
     operator fun invoke(limit: Int = 151): Flow<Resource<DomainPokemonList>> = flow {
         try {
-            emit(Resource.Loading())
             val pokemonList = repository.getPokemonList(limit).first()
             emit(Resource.Success(pokemonList))
         } catch (e: HttpException) {

@@ -15,7 +15,6 @@ class GetPokemonDetailUseCase @Inject constructor(
 ) {
     operator fun invoke(name: String): Flow<Resource<DomainPokemonDetail>> = flow {
         try {
-            emit(Resource.Loading())
             val domainPokemonDetail = repository.getPokemonDetail(name)
             emit(Resource.Success(domainPokemonDetail.first()))
         } catch (e: HttpException) {
