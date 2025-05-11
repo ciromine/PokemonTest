@@ -7,7 +7,7 @@
 * **Sin Figma:** Como nunca me dieron acceso a Figma, hice lo que se me ocurrió.
 * **App Simple:** La app se ve simple, tiene una lista con todos los pokemones (sin paginar), tiene un detalle bien simple, ya que más que hacer un detalle complejo que es como leer bien el JSON, preferí preocuparme de la arquitectura y los test.
 * **Favoritos:** Al igual que el punto anterior, favoritos solo marca o desmarca el icono de favoritos y suma estadística, por temas de tiempo y para enfocarme en la arquitectura y los test.
-* * **Sin Compose:** Se usar compose, pero preferí no usarlo porque me base en un proyecto anterior que realicé https://github.com/ciromine/MovieAppV4
+* **Sin Compose:** Se usar compose, pero preferí no usarlo porque me base en un proyecto anterior que realicé https://github.com/ciromine/MovieAppV4
 
 ## Características Principales
 
