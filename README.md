@@ -6,13 +6,19 @@
 
 Es importante destacar que el diseño visual de esta aplicación fue concebido y desarrollado íntegramente por el creador, sin acceso a un diseño previo en Figma. Cada pantalla y componente se construyó con dedicación y un enfoque en la experiencia del usuario. ¡Espero que lo disfrutes!
 
-## Características Principales (A desarrollar según tu implementación)
+## Consideraciones
+
+* **Sin Figma:** Como nunca me dieron acceso a Figma, hice lo que se me ocurrió.
+* **App Simple:** La app se ve simple, tiene una lista con todos los pokemones (sin paginar), tiene un detalle bien simple, ya que más que hacer un detalle complejo que es como leer bien el JSON, preferí preocuparme de la arquitectura y los test.
+* **Favoritos:** Al igual que el punto anterior, favoritos solo marca o desmarca el icono de favoritos y suma estadística, por temas de tiempo y para farle más enfoque y compejidad a la arquiectura y los test.
+
+## Características Principales
 
 * **Login:** Un Login mock OAuth.
-* **Lista de Pokémon:** Navega por una lista paginada de Pokémon.
-* **Detalles del Pokémon:** Visualiza información detallada de cada Pokémon, como sus habilidades, sprites, etc.
-* **Favoritos:** Marca Pokémon como favoritos para acceder a ellos fácilmente.
-* **Estadpsiticas:** Hay una sección de Perfil con estadísticas básicas del uso de la app.
+* **Lista de Pokémon:** Navega por una lista de Pokémones.
+* **Detalles del Pokémon:** Visualiza información de cada Pokémon, como sus habilidades y sprites.
+* **Favoritos:** Marca Pokémon como favoritos.
+* **Estadísticas:** Hay una sección de Perfil con estadísticas básicas del uso de la app, para acceder a esta vista desde el menu de perfil arriba a la derecha.
 
 ## Test unitarios
 
